@@ -3,7 +3,7 @@ import { timeAgo } from '@/lib/utils';
 import { User } from '@/types';
 
 export default async function Home() {
-  const users = await prisma.users.findMany();
+  const users = await prisma.user.findMany();
 
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
