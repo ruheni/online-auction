@@ -4,7 +4,8 @@ export interface User {
   email: string;
   password: string;
   createdAt: Date;
-  deposits: Deposit[];
+  deposits?: Deposit[];
+  items?: Item[];
 }
 
 export interface Deposit {
@@ -13,4 +14,31 @@ export interface Deposit {
   createdAt: Date;
   userId: number;
   user: User;
+}
+
+export interface Item {
+  id: number;
+  name: string;
+  startingPrice: number;
+  timeWindow: number;
+  state: ItemState;
+  createdAt: Date;
+  updatedAt: Date;
+  createdBy?: User;
+  createdById?: number;
+  publishedAt?: Date;
+  auctions: Auction[];
+}
+
+export interface Auction {
+  id: number;
+  itemId: number;
+  item: Item;
+  biddingOpen: boolean;
+  createdAt: Date;
+}
+
+enum ItemState {
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
 }
