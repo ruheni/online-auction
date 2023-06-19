@@ -17,12 +17,40 @@ model User {
   password  String
   createdAt DateTime  @default(now())
   deposits  Deposit[] @relation("UserDeposits")
+  items     Item[]
 }
 
 model Deposit {
   id        Int      @id @default(autoincrement())
   amount    Float
-  createdAt DateTime @default(now())
   userId    Int      @map("user_id")
   user      User     @relation("UserDeposits", fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Item {
+  id            Int      @id @default(autoincrement())
+  name          String
+  startingPrice Float
+  timeWindow    Int      // Represented in seconds
+  state         ItemState @default(DRAFT) // You can only publish one item at a time. You need to wait for the existing auction to finish before publishing or auctioning this item again.
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  createdBy     User?    @relation(fields: [createdById], references: [id])
+  createdById   Int?
+  publishedAt   DateTime?
+  auctions      Auction[]
+}
+
+model Auction {
+  id          Int       @id @default(autoincrement())
+  itemId      Int       
+  item        Item       @relation(fields: [itemId], references: [id])
+  biddingOpen Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+}
+
+enum ItemState {
+  DRAFT
+  PUBLISHED
 }
