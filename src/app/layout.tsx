@@ -1,5 +1,7 @@
-import './globals.css';
+import { Toaster } from '@/components/ui/toaster';
+
 import { Inter } from 'next/font/google';
+import './globals.css';
 import { NextAuthProvider } from './provider';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -11,13 +13,19 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <NextAuthProvider>{children}</NextAuthProvider>
+        <NextAuthProvider>
+          {children}
+          {modal}
+        </NextAuthProvider>
+        <Toaster />
       </body>
     </html>
   );
