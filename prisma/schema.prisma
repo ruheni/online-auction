@@ -48,6 +48,8 @@ model Auction {
   item        Item       @relation(fields: [itemId], references: [id])
   biddingOpen Boolean   @default(true)
   createdAt   DateTime  @default(now())
+  endTime     DateTime?
+  currentPrice Float?
 }
 
 enum ItemState {
