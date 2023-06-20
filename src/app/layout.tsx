@@ -1,5 +1,6 @@
 import { Toaster } from '@/components/ui/toaster';
 
+import Header from '@/components/header';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { NextAuthProvider } from './provider';
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <NextAuthProvider>
+          <Header />
           {children}
           {modal}
         </NextAuthProvider>

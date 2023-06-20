@@ -1,14 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import * as z from 'zod';
-import { useForm } from 'react-hook-form';
-import { signIn } from 'next-auth/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -17,6 +16,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useSearchParams } from 'next/navigation';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -26,6 +27,8 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
+  const searchParams = useSearchParams();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,7 +47,7 @@ export function LoginForm() {
         email: values.email,
         password: values.password,
         redirect: true,
-        callbackUrl: '/',
+        callbackUrl: searchParams.get('callbackUrl') ?? '/',
       });
     } catch (error) {
       setLoading(false);
