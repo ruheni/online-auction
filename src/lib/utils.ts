@@ -12,3 +12,16 @@ export function computeTimestamp(timeDurationInSeconds: number): DateTime {
   const expirationDateTime = DateTime.fromSeconds(expirationTimestamp);
   return expirationDateTime;
 }
+
+export function isIntervalPastThreshold(
+  createdAt: Date,
+  thresholdSeconds: number
+): boolean {
+  const createdAtDateTime = DateTime.fromJSDate(createdAt);
+  const currentDateTime = DateTime.now();
+  const intervalSeconds = currentDateTime.diff(
+    createdAtDateTime,
+    'seconds'
+  ).seconds;
+  return intervalSeconds >= thresholdSeconds;
+}

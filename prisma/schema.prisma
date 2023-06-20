@@ -18,6 +18,7 @@ model User {
   createdAt DateTime  @default(now())
   deposits  Deposit[] @relation("UserDeposits")
   items     Item[]
+  bids      Bid[]
 }
 
 model Deposit {
@@ -43,13 +44,24 @@ model Item {
 }
 
 model Auction {
-  id          Int       @id @default(autoincrement())
-  itemId      Int       
-  item        Item       @relation(fields: [itemId], references: [id])
-  biddingOpen Boolean   @default(true)
+  id            Int       @id @default(autoincrement())
+  itemId        Int       
+  item          Item      @relation(fields: [itemId], references: [id])
+  biddingOpen   Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  endTime       DateTime?
+  currentPrice  Float?
+  bids          Bid[]
+}
+
+model Bid {
+  id          Int     @id @default(autoincrement())
+  auctionId   Int
+  userId      Int
+  price       Float
+  auction     Auction @relation(fields: [auctionId], references: [id])
+  user        User    @relation(fields: [userId], references: [id])
   createdAt   DateTime  @default(now())
-  endTime     DateTime?
-  currentPrice Float?
 }
 
 enum ItemState {
