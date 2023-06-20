@@ -4,6 +4,8 @@ import { DataTable } from '@/components/data-table';
 import prisma from '@/lib/prisma';
 
 export default async function Home() {
+  // not a good idea of communicating to the db directly
+  // because of unable to revalidate once there is a change in the modal.
   const auctionsItem = await prisma.auction.findMany({
     include: {
       item: true,
@@ -28,3 +30,6 @@ export default async function Home() {
     </main>
   );
 }
+
+// Same Issue
+// https://stackoverflow.com/questions/76395718/is-there-a-way-to-on-demand-revalidate-data-from-a-server-component-that-directl

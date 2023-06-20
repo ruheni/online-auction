@@ -27,7 +27,7 @@ export interface Item {
   createdBy?: User;
   createdById?: number;
   publishedAt?: Date;
-  auctions: Auction[];
+  auctions?: Auction[];
 }
 
 export interface Auction {
@@ -36,6 +36,8 @@ export interface Auction {
   item: Item;
   biddingOpen: boolean;
   createdAt: Date;
+  currentPrice?: number;
+  endTime?: Date;
 }
 
 enum ItemState {

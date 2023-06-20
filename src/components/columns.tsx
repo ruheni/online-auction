@@ -4,6 +4,7 @@ import { statuses } from '@/constant';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import { Duration } from 'luxon';
+import Link from 'next/link';
 import { Button } from './ui/button';
 
 export const columns: ColumnDef<any>[] = [
@@ -15,10 +16,10 @@ export const columns: ColumnDef<any>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'startingPrice',
+    accessorKey: 'currentPrice',
     header: () => 'Current Price', //todo: need to improve the logic of auction modal. Related to bidding feature...
     cell: ({ row }) => (
-      <div className='w-[80px]'>{row.getValue('startingPrice')}$</div>
+      <div className='w-[80px]'>{row.getValue('currentPrice')}$</div>
     ),
     enableHiding: false,
   },
@@ -67,7 +68,21 @@ export const columns: ColumnDef<any>[] = [
   {
     id: 'actions',
     header: () => 'Bid',
-    cell: ({ row }) => <Button> Bid </Button>,
+    cell: ({ row }) => {
+      const status = statuses.find(
+        (status) => status.value === row.getValue('biddingOpen')
+      );
+
+      if (status?.value === 'ongoing') {
+        return (
+          <Button>
+            <Link href={`/auction/${row.original.id}/bid`}>Bid</Link>
+          </Button>
+        );
+      } else {
+        return <Button disabled> Bid </Button>;
+      }
+    },
     enableSorting: false,
     enableHiding: false,
   },
