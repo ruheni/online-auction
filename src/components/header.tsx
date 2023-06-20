@@ -45,6 +45,9 @@ async function Header() {
                 <Link href='/deposit'>Deposit</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
+                <Link href='/items'>My Items</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
                 <SignOutButton />
               </DropdownMenuItem>
             </DropdownMenuContent>

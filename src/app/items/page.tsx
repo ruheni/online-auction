@@ -46,10 +46,10 @@ export default async function MyItems() {
     );
 
     return (
-      <main className='flex min-h-screen flex-col items-center  p-24'>
-        <h1 className='text-lg text-orange-300'>My Items</h1>
+      <main className='min-h-screen p-24'>
+        <h1 className='mb-4 text-lg text-orange-300'>My Items</h1>
 
-        <div className='flex gap-2'>
+        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3'>
           {user?.items?.map((item: Item) => (
             <Card className='w-[350px]' key={item.id}>
               <CardHeader></CardHeader>
@@ -75,9 +75,8 @@ export default async function MyItems() {
                         value={item.timeWindow}
                         disabled
                       />
-                      <span>
-                        The time window is using hour as a time unit. Minimum is
-                        1
+                      <span className='text-sm text-gray-500'>
+                        The time window is measured in hours. Minimum value: 1.
                       </span>
                     </div>
                   </div>
