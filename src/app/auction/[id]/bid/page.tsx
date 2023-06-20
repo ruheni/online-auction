@@ -1,5 +1,8 @@
 import prisma from '@/lib/prisma';
 
+import { authOptions } from '@/lib/auth';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 import { BidForm } from './form';
 
 interface pageProps {
@@ -7,6 +10,12 @@ interface pageProps {
 }
 
 export default async function BidPage({ params: { id } }: pageProps) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect(`/login?callbackUrl=/auction/${id}/bid`);
+  }
+
   const auction = await prisma.auction.findUnique({
     where: { id: JSON.parse(id) },
     include: {

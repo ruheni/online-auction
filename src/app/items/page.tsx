@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { redirect } from 'next/navigation';
 import PublishSwitch from './publish-switch';
 
 async function findUniqueWithInclude<T>(
@@ -29,6 +30,10 @@ async function findUniqueWithInclude<T>(
 // Can be improved. Experimenting Next.js 13 communicate to database inside server component.
 export default async function MyItems() {
   const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect(`/login?callbackUrl=/items`);
+  }
 
   if (session?.user) {
     const user: User | null = await findUniqueWithInclude<User>(
