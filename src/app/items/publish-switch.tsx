@@ -21,7 +21,10 @@ const PublishSwitch: FC<Props> = ({ item }) => {
     try {
       const res = await fetch('/api/auction', {
         method: 'POST',
-        body: JSON.stringify({ itemId: item.id }),
+        body: JSON.stringify({
+          itemId: item.id,
+          timeWindow: item.timeWindow,
+        }),
         headers: {
           'Content-Type': 'application/json',
         },
