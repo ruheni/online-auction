@@ -8,6 +8,12 @@ jest.mock('next-auth/react', () => ({
   signIn: jest.fn(),
 }));
 
+jest.mock('next/navigation', () => ({
+  useSearchParams: jest.fn(() => ({
+    get: jest.fn().mockReturnValue('/'), // Provide the desired callback URL mock value here
+  })),
+}));
+
 describe('LoginForm', () => {
   it('should enter username and password and click on login button', async () => {
     render(<LoginForm />);
