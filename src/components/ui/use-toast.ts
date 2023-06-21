@@ -51,6 +51,13 @@ interface State {
   toasts: ToasterToast[];
 }
 
+function dispatch(action: Action) {
+  memoryState = reducer(memoryState, action);
+  listeners.forEach((listener) => {
+    listener(memoryState);
+  });
+}
+
 const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
 const addToRemoveQueue = (toastId: string) => {
@@ -128,13 +135,6 @@ const listeners: Array<(state: State) => void> = [];
 
 let memoryState: State = { toasts: [] };
 
-function dispatch(action: Action) {
-  memoryState = reducer(memoryState, action);
-  listeners.forEach((listener) => {
-    listener(memoryState);
-  });
-}
-
 type Toast = Omit<ToasterToast, 'id'>;
 
 function toast({ ...props }: Toast) {
@@ -186,4 +186,4 @@ function useToast() {
   };
 }
 
-export { useToast, toast };
+export { toast, useToast };

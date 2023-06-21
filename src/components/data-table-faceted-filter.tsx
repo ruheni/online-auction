@@ -19,6 +19,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
+/* eslint-disable no-unused-vars */
 interface DataTableFacetedFilter<TData, TValue> {
   column?: Column<TData, TValue>;
   title?: string;
@@ -31,7 +32,6 @@ interface DataTableFacetedFilter<TData, TValue> {
 
 export function DataTableFacetedFilter<TData, TValue>({
   column,
-  title,
   options,
 }: DataTableFacetedFilter<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues();

@@ -16,6 +16,21 @@ export interface Deposit {
   user: User;
 }
 
+export interface Auction {
+  id: number;
+  itemId: number;
+  item: Item;
+  biddingOpen: boolean;
+  createdAt: Date;
+  currentPrice?: number;
+  endTime?: Date;
+}
+
+export enum ItemState {
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+}
+
 export interface Item {
   id: number;
   name: string;
@@ -28,19 +43,4 @@ export interface Item {
   createdById?: number;
   publishedAt?: Date;
   auctions?: Auction[];
-}
-
-export interface Auction {
-  id: number;
-  itemId: number;
-  item: Item;
-  biddingOpen: boolean;
-  createdAt: Date;
-  currentPrice?: number;
-  endTime?: Date;
-}
-
-enum ItemState {
-  DRAFT = 'DRAFT',
-  PUBLISHED = 'PUBLISHED',
 }

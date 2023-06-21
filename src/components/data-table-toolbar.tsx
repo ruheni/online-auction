@@ -12,10 +12,6 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
-  const isFiltered =
-    table.getPreFilteredRowModel().rows.length >
-    table.getFilteredRowModel().rows.length;
-
   return (
     <div className='flex items-center justify-between'>
       <div className='flex flex-1 items-center space-x-2'>
