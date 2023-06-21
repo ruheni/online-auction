@@ -138,3 +138,18 @@ To check for expired auctions and mark them as complete, follow these steps:
 Once a cron job scheduler is implemented, you can configure it to periodically trigger the API route automatically. This will ensure that expired auctions are marked as complete without the need for manual intervention.
 
 Please note that this is a temporary solution until the cron job scheduler is implemented. Be sure to regularly check for expired auctions to keep the application up-to-date.
+
+## Roadmap and Future Improvements
+
+The following is a list of planned improvements and features for the project:
+
+- [ ] Refactor the data fetching process for the homepage table.
+- [ ] Implement real-time updates for the time duration.
+- [ ] Enhance the UI/UX of the Bid Modal/Page.
+- [ ] Implement an improved feature to reflect changes in the table after a successful bid.
+- [ ] Enhance the validation for the bidding feature by prompting users to deposit funds if their balance is insufficient.
+- [ ] Update the current price to the starting price if no bids have been placed yet on the homepage table.
+- [ ] Improve the Deposit feature by displaying the user's balance in the header component and reflecting changes after a successful deposit.
+- [ ] Enhance the "My Items" page, where item owners can view and edit their items before publishing.
+- [ ] Implement real-time notifications for bidding, ensuring that all participating users are notified of any bids on an auction item.
+- [ ] Integrate zustand state management.
