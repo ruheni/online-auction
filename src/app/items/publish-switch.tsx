@@ -3,7 +3,7 @@
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
-import { Item } from '@/types';
+import { Item } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 

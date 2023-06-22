@@ -2,12 +2,12 @@ import { CheckCircle, HelpCircle } from 'lucide-react';
 
 export const statuses = [
   {
-    value: 'ongoing',
+    value: true,
     label: 'On Going',
     icon: HelpCircle,
   },
   {
-    value: 'completed',
+    value: false,
     label: 'Completed',
     icon: CheckCircle,
     color: 'text-green-700',

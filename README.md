@@ -143,8 +143,9 @@ Please note that this is a temporary solution until the cron job scheduler is im
 
 The following is a list of planned improvements and features for the project:
 
+- [&#x2713;] Implement real-time updates for the time duration.
+- [ ] Temporary button to trigger the cron auction api.
 - [ ] Refactor the data fetching process for the homepage table.
-- [ ] Implement real-time updates for the time duration.
 - [ ] Enhance the UI/UX of the Bid Modal/Page.
 - [ ] Implement an improved feature to reflect changes in the table after a successful bid.
 - [ ] Enhance the validation for the bidding feature by prompting users to deposit funds if their balance is insufficient.
