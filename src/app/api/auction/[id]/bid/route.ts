@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { isIntervalPastThreshold } from '@/lib/utils';
-import { Item } from '@/types';
+import { Item } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 
 export async function POST(req: Request) {

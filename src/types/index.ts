@@ -1,3 +1,6 @@
+// When encountering conflicts with TypeScript types, it is recommended to utilize the type models declared in the schema.prisma file.
+import { Item } from '@prisma/client';
+
 export interface User {
   id: number;
   name: string;
@@ -24,23 +27,4 @@ export interface Auction {
   createdAt: Date;
   currentPrice?: number;
   endTime?: Date;
-}
-
-export enum ItemState {
-  DRAFT = 'DRAFT',
-  PUBLISHED = 'PUBLISHED',
-}
-
-export interface Item {
-  id: number;
-  name: string;
-  startingPrice: number;
-  timeWindow: number;
-  state: ItemState;
-  createdAt: Date;
-  updatedAt: Date;
-  createdBy?: User;
-  createdById?: number;
-  publishedAt?: Date;
-  auctions?: Auction[];
 }

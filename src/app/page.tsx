@@ -29,7 +29,6 @@ export default async function Home() {
       ...auction,
       ...rest,
       itemId,
-      biddingOpen: auction.biddingOpen ? 'ongoing' : 'completed',
     };
   });
 

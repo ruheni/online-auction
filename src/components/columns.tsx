@@ -5,9 +5,11 @@ import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import { Duration } from 'luxon';
 import Link from 'next/link';
-import { Button } from './ui/button';
 
-export const columns: ColumnDef<any>[] = [
+import { Auction } from '@prisma/client';
+import Timer from './timer';
+import { Button } from './ui/button';
+export const columns: ColumnDef<Auction>[] = [
   {
     accessorKey: 'name',
     header: () => 'Name',
@@ -30,6 +32,21 @@ export const columns: ColumnDef<any>[] = [
       <div className='w-[80px]'>
         {Duration.fromObject({ seconds: row.getValue('timeWindow') }).toFormat(
           'hh:mm:ss'
+        )}
+      </div>
+    ),
+    enableSorting: true,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'endTime',
+    header: () => 'Remaining Time',
+    cell: ({ row }) => (
+      <div className='w-[80px]'>
+        {row.getValue('endTime') ? (
+          <Timer endTime={row.getValue('endTime')} />
+        ) : (
+          ''
         )}
       </div>
     ),
@@ -73,7 +90,7 @@ export const columns: ColumnDef<any>[] = [
         (status) => status.value === row.getValue('biddingOpen')
       );
 
-      if (status?.value === 'ongoing') {
+      if (status?.value) {
         return (
           <Button>
             <Link href={`/auction/${row.original.id}/bid`}>Bid</Link>

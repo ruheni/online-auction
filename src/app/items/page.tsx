@@ -2,7 +2,8 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 
 import prisma from '@/lib/prisma';
-import { Item, User } from '@/types';
+import { User } from '@/types';
+import { Item } from '@prisma/client';
 
 import {
   Card,
