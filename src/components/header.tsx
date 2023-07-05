@@ -10,6 +10,7 @@ import {
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
+import Balance from './deposit-balance';
 import SignOutButton from './sign-out';
 
 async function Header() {
@@ -23,7 +24,9 @@ async function Header() {
         </span>
       </div>
       <div className='flex items-center'>
-        <span className='mr-2 text-sm'>{session?.user?.name}</span>
+        {session?.user && <Balance />}
+
+        <span className=' ml-4 mr-2 text-sm'>{session?.user?.name}</span>
 
         {session?.user && (
           <DropdownMenu>

@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
+import { useDepositStore } from '@/lib/store';
 
 const formSchema = z.object({
   amount: z
@@ -28,6 +29,7 @@ const formSchema = z.object({
 });
 
 export function DepositForm() {
+  const { addToDeposits } = useDepositStore();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
@@ -42,13 +44,7 @@ export function DepositForm() {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/deposit', {
-        method: 'POST',
-        body: JSON.stringify(values),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const res = await addToDeposits(values);
 
       if (!res.ok) {
         toast({
@@ -64,8 +60,6 @@ export function DepositForm() {
         description: 'Deposit amount successful',
         variant: 'success',
       });
-
-      setLoading(false);
     } catch (error) {
       setLoading(false);
 
@@ -74,6 +68,8 @@ export function DepositForm() {
         title: 'Uh oh! Something went wrong.',
         description: 'There was a problem with your request.',
       });
+    } finally {
+      setLoading(false);
     }
 
     form.reset();

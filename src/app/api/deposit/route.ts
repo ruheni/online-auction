@@ -1,8 +1,35 @@
 import prisma from '@/lib/prisma';
 
-import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { getServerSession } from 'next-auth';
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (session?.user) {
+      const deposits = await prisma.deposit.findMany({
+        where: {
+          userId: parseInt(session?.user.id),
+        },
+      });
+
+      return NextResponse.json({
+        success: true,
+        deposits,
+      });
+    }
+  } catch (error: any) {
+    return new NextResponse(
+      JSON.stringify({
+        status: 'error',
+        message: error.message,
+      }),
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(req: Request) {
   try {
@@ -20,14 +47,18 @@ export async function POST(req: Request) {
             create: { amount: parseFloat(amount) },
           },
         },
+        include: {
+          deposits: {
+            orderBy: {
+              createdAt: 'desc', // Order by creation timestamp in descending order
+            },
+            take: 1, // Limit the result to one deposit
+          },
+        },
       });
 
       return NextResponse.json({
-        user: {
-          id: user.id.toString(),
-          name: user.name,
-          email: user.email,
-        },
+        user: { ...user },
       });
     }
   } catch (error: any) {
