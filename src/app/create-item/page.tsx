@@ -11,10 +11,15 @@ export default async function CreateItemPage() {
   }
 
   return (
-    <main className='w-full p-10 md:grid  md:place-items-center'>
-      <div className='md:w-6/12 lg:w-5/12'>
+    <div className='flex h-screen flex-col items-center  justify-center '>
+      <h1
+        className={`mb-2 bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-4xl font-bold text-transparent`}
+      >
+        Create Item
+      </h1>
+      <div className='w-full max-w-lg rounded-lg bg-white p-4 shadow-md'>
         <CreateItemForm />
       </div>
-    </main>
+    </div>
   );
 }

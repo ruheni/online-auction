@@ -70,6 +70,7 @@ export async function POST(req: Request) {
           latestBid.userId === parseInt(session?.user?.id) &&
           isIntervalPastThreshold(latestBid.createdAt, thresholdSeconds)
         ) {
+          // TODO: when to deduct the bid amount to users deposits?
           // user last auction was more than 5 seconds ago.
           await prisma.bid.create({
             data: {

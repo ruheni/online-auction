@@ -94,12 +94,6 @@ export function CreateItemForm() {
   return (
     <div className='rounded-sm bg-white p-10' data-testid='deposit-form'>
       <Form {...form}>
-        <h1
-          className='mb-5 text-3xl font-medium'
-          data-testid='deposit-page-title'
-        >
-          Create Item
-        </h1>
         <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
           <FormField
             control={form.control}

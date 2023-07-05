@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
+import { useDepositStore } from '@/lib/store';
 import { Auction } from '@/types';
 import { useRouter } from 'next/navigation';
 
@@ -34,6 +35,7 @@ interface formProps<T> {
 }
 
 export function BidForm<T>({ auction }: formProps<T>) {
+  const { deductBalance } = useDepositStore();
   const { toast } = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -80,6 +82,8 @@ export function BidForm<T>({ auction }: formProps<T>) {
         variant: 'success',
       });
 
+      deductBalance(values.price);
+
       router.refresh();
     } catch (error) {
       setLoading(false);
@@ -96,13 +100,12 @@ export function BidForm<T>({ auction }: formProps<T>) {
 
   return (
     <div className='rounded-sm bg-white p-10' data-testid='deposit-form'>
+      <h1
+        className={`mb-10 bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-4xl font-bold text-transparent`}
+      >
+        {item && item.name}
+      </h1>
       <Form {...form}>
-        <h1
-          className='mb-5 text-3xl font-medium'
-          data-testid='deposit-page-title'
-        >
-          {item && item.name}
-        </h1>
         <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
           <FormField
             control={form.control}
@@ -133,7 +136,7 @@ export function BidForm<T>({ auction }: formProps<T>) {
               </Button>
             ) : (
               <Button data-testid='bid-button' type='submit'>
-                Submit
+                Submit Bid
               </Button>
             )}
           </div>
