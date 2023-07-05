@@ -18,7 +18,11 @@ export default async function BidModal({ params: { id } }: pageProps) {
   if (auction) {
     return (
       <Modal>
-        <BidForm auction={auction} />
+        <div className='flex h-screen flex-col items-center  justify-center '>
+          <div className='w-full max-w-lg rounded-lg bg-white p-6 shadow-md'>
+            <BidForm auction={auction} />
+          </div>
+        </div>
       </Modal>
     );
   } else {

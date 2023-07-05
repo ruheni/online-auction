@@ -5,11 +5,15 @@ interface DepositState {
   deposit: Deposit[];
   // eslint-disable-next-line no-unused-vars
   addToDeposits: (_deposit: { amount: string }) => Promise<Response>;
+  balance: string;
   fetchDeposits: () => void;
+  // eslint-disable-next-line no-unused-vars
+  deductBalance: (amount: string) => void;
 }
 
 export const useDepositStore = create<DepositState>()((set) => ({
   deposit: [],
+  balance: '0',
   addToDeposits: async (deposit): Promise<Response> => {
     const res = await fetch('/api/deposit', {
       method: 'POST',
@@ -25,6 +29,12 @@ export const useDepositStore = create<DepositState>()((set) => ({
 
     set((state) => ({ deposit: [...state.deposit, depositData] }));
 
+    set((state) => ({
+      balance: [...state.deposit]
+        .reduce((total, deposit) => total + deposit.amount, 0)
+        .toFixed(2),
+    }));
+
     return res;
   },
   fetchDeposits: async () => {
@@ -34,5 +44,16 @@ export const useDepositStore = create<DepositState>()((set) => ({
       await res.json();
 
     set({ deposit: response.deposits });
+
+    set((state) => ({
+      balance: state.deposit
+        .reduce((total, deposit) => total + deposit.amount, 0)
+        .toFixed(2),
+    }));
+  },
+  deductBalance: (amount) => {
+    set((state) => ({
+      balance: (parseFloat(state.balance) - parseFloat(amount)).toString(),
+    }));
   },
 }));

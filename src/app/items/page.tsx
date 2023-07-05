@@ -48,7 +48,11 @@ export default async function MyItems() {
 
     return (
       <main className='min-h-screen p-24'>
-        <h1 className='mb-4 text-lg text-orange-300'>My Items</h1>
+        <h1
+          className={`mb-8 bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-4xl font-bold text-transparent`}
+        >
+          My Items
+        </h1>
 
         <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3'>
           {user?.items?.map((item: Item) => (

@@ -79,8 +79,8 @@ export function DepositForm() {
     <div className='rounded-sm bg-white p-10' data-testid='deposit-form'>
       <Form {...form}>
         <h1
-          className='mb-5 text-3xl font-medium'
           data-testid='deposit-page-title'
+          className={`mb-12 bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-4xl font-bold text-transparent`}
         >
           Deposit
         </h1>
