@@ -7,11 +7,13 @@ import {
   FieldPath,
   FieldValues,
   FormProvider,
+  ValidateResult,
   useFormContext,
 } from 'react-hook-form';
 
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
+import { ErrorMessage } from '@hookform/error-message';
 
 const Form = FormProvider;
 
@@ -66,6 +68,7 @@ const useFormField = () => {
     formItemId: `${id}-form-item`,
     formDescriptionId: `${id}-form-item-description`,
     formMessageId: `${id}-form-item-message`,
+    errors: formState.errors,
     ...fieldState,
   };
 };
@@ -141,28 +144,69 @@ const FormDescription = React.forwardRef<
 });
 FormDescription.displayName = 'FormDescription';
 
-const FormMessage = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, children, ...props }, ref) => {
-  const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message) : children;
+// Define the props for the FormMessage component, extending React.HTMLAttributes<HTMLParagraphElement>
+interface FormMessageProps extends React.HTMLAttributes<HTMLParagraphElement> {
+  showMultipleErrors?: boolean; // Prop to indicate if multiple error messages are expected
+}
 
-  if (!body) {
-    return null;
+const FormMessage = React.forwardRef<HTMLParagraphElement, FormMessageProps>(
+  ({ className, showMultipleErrors, children, ...props }, ref) => {
+    const { error, formMessageId, name, errors } = useFormField();
+
+    const body = showMultipleErrors ? (
+      // Render multiple error messages using ErrorMessage component
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ messages }) => {
+          return messages
+            ? Object.entries(messages).map(
+                ([type, error]: [string, ValidateResult]) => (
+                  <div key={type}>
+                    {Array.isArray(error) ? (
+                      error.map((errorMsg, index) => (
+                        <p
+                          key={index}
+                          className='ml-2 flex list-none items-center'
+                        >
+                          <span className='mr-2 h-1 w-1 rounded-full bg-gray-300' />
+                          {errorMsg}
+                        </p>
+                      ))
+                    ) : (
+                      <p className='ml-2 flex list-none items-center'>
+                        <span className='mr-2 h-1 w-1 rounded-full bg-gray-300' />
+                        {error}
+                      </p>
+                    )}
+                  </div>
+                )
+              )
+            : null;
+        }}
+      />
+    ) : error ? (
+      String(error?.message)
+    ) : (
+      children
+    );
+
+    if (!body) {
+      return null;
+    }
+
+    return (
+      <div
+        ref={ref}
+        id={formMessageId}
+        className={cn('text-sm font-medium text-destructive', className)}
+        {...props}
+      >
+        {body}
+      </div>
+    );
   }
-
-  return (
-    <p
-      ref={ref}
-      id={formMessageId}
-      className={cn('text-sm font-medium text-destructive', className)}
-      {...props}
-    >
-      {body}
-    </p>
-  );
-});
+);
 FormMessage.displayName = 'FormMessage';
 
 export {
