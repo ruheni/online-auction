@@ -3,7 +3,8 @@ import { create } from 'zustand';
 
 interface DepositState {
   deposit: Deposit[];
-  addToDeposits: (deposit: { amount: string }) => Promise<Response>;
+  // eslint-disable-next-line no-unused-vars
+  addToDeposits: (_deposit: { amount: string }) => Promise<Response>;
   fetchDeposits: () => void;
 }
 

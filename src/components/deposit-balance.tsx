@@ -10,7 +10,7 @@ function Balance() {
     if (deposit.length == 0) {
       fetchDeposits();
     }
-  }, [deposit]);
+  }, [fetchDeposits, deposit]);
 
   return (
     <div>

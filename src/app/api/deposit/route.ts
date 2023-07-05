@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     };
 
     if (session?.user) {
-      const { password, ...rest } = await prisma.user.update({
+      const user = await prisma.user.update({
         where: { id: parseInt(session?.user?.id) },
         data: {
           deposits: {
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
       });
 
       return NextResponse.json({
-        user: { ...rest },
+        user: { ...user },
       });
     }
   } catch (error: any) {
