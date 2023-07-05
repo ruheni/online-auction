@@ -3,6 +3,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -17,13 +19,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useSearchParams } from 'next/navigation';
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6, {
-    message: 'password must be at least 6 characters.',
-  }),
+  password: z.string(),
 });
 
 export function LoginForm() {
@@ -108,6 +107,12 @@ export function LoginForm() {
               Login
             </Button>
           )}
+
+          <Button variant='link'>
+            <Link data-cy='sign-up-link' href='/register'>
+              Sign Up
+            </Link>
+          </Button>
         </div>
       </form>
     </Form>
