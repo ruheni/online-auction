@@ -1,14 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import * as z from 'zod';
-import { useForm } from 'react-hook-form';
-import { signIn } from 'next-auth/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
+import { Eye, Loader2 } from 'lucide-react';
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -18,20 +17,37 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import Link from 'next/link';
+
+interface PasswordVisibility {
+  password: boolean;
+  confirmPassword: boolean;
+}
 
 const formSchema = z
   .object({
     name: z.string().min(5, {
-      message: 'name must be at least 5 characters.',
+      message: 'Name must be a minimum of 5 characters.',
     }),
-    email: z.string().email(),
-    password: z.string().min(6, {
-      message: 'password must be at least 6 characters.',
+    email: z.string().email({
+      message: 'Please enter a valid email address.',
     }),
-    confirmPassword: z.string().min(6),
+    password: z
+      .string()
+      .min(6, 'Password must be at least 6 characters long')
+      .regex(/[0-9]/, 'Password must contain at least one number')
+      .regex(
+        /[!@#$%^&*(),.?":{}|<>]/,
+        'Password must contain at least one special character'
+      )
+      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter'),
+    confirmPassword: z
+      .string()
+      .min(6, 'Confirm Password must be at least 6 characters long'),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
+    message: 'The passwords do not match.',
     path: ['confirmPassword'],
   });
 
@@ -44,9 +60,22 @@ export function RegisterForm() {
       password: '',
       confirmPassword: '',
     },
+    criteriaMode: 'all',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] =
+    useState<PasswordVisibility>({
+      password: false,
+      confirmPassword: false,
+    });
+
+  const handleEyeClick = (fieldName: keyof PasswordVisibility) => {
+    setIsPasswordVisible((prevState) => ({
+      ...prevState,
+      [fieldName]: !prevState[fieldName],
+    }));
+  };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
@@ -121,9 +150,25 @@ export function RegisterForm() {
             <FormItem className='mb-3'>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type='password' placeholder='******' {...field} />
+                <div className='relative'>
+                  <Input
+                    type={isPasswordVisible.password ? 'text' : 'password'}
+                    placeholder='******'
+                    {...field}
+                  />
+                  <div className='absolute inset-y-0 right-0 flex items-center pr-3'>
+                    <Eye
+                      className={
+                        form.formState.dirtyFields['password']
+                          ? 'visible'
+                          : 'hidden'
+                      }
+                      onClick={() => handleEyeClick('password')}
+                    />
+                  </div>
+                </div>
               </FormControl>
-              <FormMessage />
+              <FormMessage showMultipleErrors />
             </FormItem>
           )}
         />
@@ -134,7 +179,25 @@ export function RegisterForm() {
             <FormItem className='mb-3'>
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
-                <Input placeholder='******' type='password' {...field} />
+                <div className='relative'>
+                  <Input
+                    placeholder='******'
+                    type={
+                      isPasswordVisible.confirmPassword ? 'text' : 'password'
+                    }
+                    {...field}
+                  />
+                  <div className='absolute inset-y-0 right-0 flex items-center pr-3'>
+                    <Eye
+                      className={
+                        form.formState.dirtyFields['confirmPassword']
+                          ? 'visible'
+                          : 'hidden'
+                      }
+                      onClick={() => handleEyeClick('confirmPassword')}
+                    />
+                  </div>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -149,6 +212,12 @@ export function RegisterForm() {
           ) : (
             <Button type='submit'>Submit</Button>
           )}
+
+          <Button variant='link'>
+            <Link data-cy='sign-in-link' href='/login'>
+              Login
+            </Link>
+          </Button>
         </div>
       </form>
     </Form>
