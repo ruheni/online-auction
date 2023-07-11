@@ -1,13 +1,13 @@
-import { DepositForm } from '@/app/deposit/form';
+import { CreateItemForm } from '@/app/create-item/form';
 import Modal from '@/components/modal';
 import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 
-export default function DepositModal() {
+export default function CreateItemModal() {
   return (
     <Modal>
-      <DialogTitle>Deposit Money</DialogTitle>
+      <DialogTitle>Create Item</DialogTitle>
       <DialogDescription asChild>
-        <DepositForm />
+        <CreateItemForm />
       </DialogDescription>
     </Modal>
   );

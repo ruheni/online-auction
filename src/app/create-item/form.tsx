@@ -148,7 +148,7 @@ export function CreateItemForm() {
                   />
                 </FormControl>
                 <FormDescription>
-                  The time window is using hour as a time unit. Minimum is 1
+                  Time window is using hour as a time unit. Minimum is 1
                 </FormDescription>
                 <FormMessage />
               </FormItem>
