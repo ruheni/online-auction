@@ -44,9 +44,15 @@ async function Header() {
                 <Link href='/create-item'>Create New Item</Link>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              {/* 
+                  DropdownMenuItem:
+                  This component appears to be broken and is experiencing issues with Next.js 13 route interception. When used with a Link component, it causes multiple re-renders.  
+                  ..
+                  DropdownMenuItem > DropdownMenuLabel
+              */}
+              <DropdownMenuLabel>
                 <Link href='/deposit'>Deposit</Link>
-              </DropdownMenuItem>
+              </DropdownMenuLabel>
               <DropdownMenuItem>
                 <Link href='/items'>My Items</Link>
               </DropdownMenuItem>

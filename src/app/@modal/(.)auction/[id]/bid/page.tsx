@@ -1,5 +1,6 @@
 import { BidForm } from '@/app/auction/[id]/bid/form';
 import Modal from '@/components/modal';
+import { DialogDescription, DialogTitle } from '@/components/ui/dialog';
 
 import prisma from '@/lib/prisma';
 
@@ -18,11 +19,10 @@ export default async function BidModal({ params: { id } }: pageProps) {
   if (auction) {
     return (
       <Modal>
-        <div className='flex h-screen flex-col items-center  justify-center '>
-          <div className='w-full max-w-lg rounded-lg bg-white p-6 shadow-md'>
-            <BidForm auction={auction} />
-          </div>
-        </div>
+        <DialogTitle>Deposit</DialogTitle>
+        <DialogDescription asChild>
+          <BidForm auction={auction} />
+        </DialogDescription>
       </Modal>
     );
   } else {
